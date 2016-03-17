@@ -1,0 +1,29 @@
+{
+  "name": "promisify-api",
+  "version": "1.0.0",
+  "description": "Changes interface of asynchronous functions to Promises",
+  "main": "index.js",
+  "engines": {
+    "node": ">=4"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^2.4.5"
+  },
+  "scripts": {
+    "test": "mocha --ui tdd test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sullenor/promisify-api.git"
+  },
+  "keywords": [
+    "promise"
+  ],
+  "author": "Alexey Litvinov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sullenor/promisify-api/issues"
+  },
+  "homepage": "https://github.com/sullenor/promisify-api#readme"
+}
