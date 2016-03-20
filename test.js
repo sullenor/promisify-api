@@ -1,40 +1,45 @@
-const assert = require('assert');
-const promisify = require('./');
+var assert = require('assert');
+var promisify = require('./');
 
-suite('promisify-api', () => {
-  test('respond with result', done => {
+suite('promisify-api', function () {
+  test('respond with result', function (done) {
     promisify(result)('finally')
-      .then(rs => {
+      .then(function (rs) {
         assert.equal(rs, 'finally');
         done();
       })
       .catch(done);
   });
 
-  test('respond with error', done => {
+  test('respond with error', function (done) {
     promisify(error)('oops')
-      .then(_ => done(new Error('should throw an error')))
-      .catch(er => {
+      .then(function () {
+        done(new Error('should throw an error'));
+      })
+      .catch(function (er) {
         assert(er instanceof Error, 'not an error');
         assert.equal(er.message, 'oops');
         done();
       });
   });
 
-  test('saves the context', done => {
-    const kitty = {
+  test('saves the context', function (done) {
+    var kitty = {
       /**
        * @param {string}   name
        * @param {function} cb
        */
       greet: function (name, cb) {
-        setTimeout(_ => cb(null, `${this.name} greets ${name}`), 10);
+        var self = this;
+        setTimeout(function () {
+          cb(null, self.name + ' greets ' + name);
+        }, 10);
       },
       name: 'Sally',
     };
 
     promisify(kitty.greet, kitty)('Jamie')
-      .then(msg => {
+      .then(function (msg) {
         assert.equal(msg, 'Sally greets Jamie');
         done();
       })
@@ -47,7 +52,9 @@ suite('promisify-api', () => {
  * @param {function} cb
  */
 function result(val, cb) {
-  setTimeout(_ => cb(null, val), 10);
+  setTimeout(function () {
+    cb(null, val);
+  }, 10);
 }
 
 /**
@@ -55,5 +62,7 @@ function result(val, cb) {
  * @param {function} cb
  */
 function error(msg, cb) {
-  setTimeout(_ => cb(new Error(msg)), 10);
+  setTimeout(function () {
+    cb(new Error(msg));
+  }, 10);
 }
