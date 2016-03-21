@@ -2,4 +2,5 @@
 .gitignore
 .npmignore
 .travis.yml
+benchmark/*
 test.js
