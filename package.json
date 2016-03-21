@@ -12,7 +12,7 @@
     "mocha": "^2.4.5"
   },
   "scripts": {
-    "benchmark": "node benchmark",
+    "benchmarks": "node benchmarks",
     "test": "mocha --ui tdd test"
   },
   "repository": {
