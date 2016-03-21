@@ -1,24 +1,24 @@
-const promisify = require('../index');
-const Suite = require('benchmark').Suite;
+var readdir = require('fs').readdirSync;
+var resolve = require('path').resolve;
+var suite = new require('benchmark').Suite();
 
-const prDelay = promisify(delay);
-const suite = new Suite();
+var cases = resolve(__dirname, 'cases');
 
-suite.add('delay', {
-  defer: true,
-  fn: function (deferred) {
-    prDelay(1, 2, 3, 4, 5, 6)
-      .then(_ => deferred.resolve());
-  },
-  onComplete: function () {
+readdir(cases).forEach(function (name) {
+  var testCase = require(resolve(cases, name));
+
+  suite.add(name, {
+    defer: testCase.length > 0,
+    fn: testCase,
+  })
+});
+
+suite
+.on('complete', function () {
+  this.forEach(function (benchmark) {
     // https://benchmarkjs.com/docs#prototype_stats
-    console.log(`The sample arithmetic mean (secs): ${this.stats.mean}`);
-  },
+    console.log(benchmark.name);
+    console.log(' → The sample arithmetic mean (secs): ' + benchmark.stats.mean);
+  });
 })
 .run({async: true});
-
-function delay(a, b, c, d, e, f, cb) {
-  setTimeout(function () {
-    cb(null, [a]);
-  }, 10);
-}
