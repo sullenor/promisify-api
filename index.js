@@ -9,6 +9,10 @@ module.exports = function promisify(fn, ctx) {
   var argsNum = fn.length - 1;
   var argsToPrepend = slice.call(arguments, 2);
 
+  if (fn.length === 0) {
+    throw new Error('promisify accepts functions with explicit arguments declaration');
+  }
+
   if (argsToPrepend.length > argsNum) {
     var name = (fn.name || 'promisified') + ' function doesn\'t accept';
     switch (argsNum) {

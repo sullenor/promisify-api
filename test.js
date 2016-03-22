@@ -55,16 +55,16 @@ suite('promisify-api', function () {
       .catch(done);
   });
 
-  test('throws an exception for the additional argument', () => {
+  test('throws an exception for functions with implicit argument declaration', function () {
     try {
-      promisify(result, null, 6, 'excess');
+      promisify(function () {});
       done(new Error('failure'));
     } catch(er) {
-      assert.equal(er.message, 'result function doesn\'t accept more than one argument');
+      assert.equal(er.message, 'promisify accepts functions with explicit arguments declaration');
     }
   });
 
-  test('throws an exception for the additional argument', () => {
+  test('throws an exception for the additional argument', function () {
     try {
       promisify(result, null, 6, 'excess');
       done(new Error('failure'));
