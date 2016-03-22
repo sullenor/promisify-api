@@ -11,6 +11,10 @@ $ npm install promisify-api
 
 ## Usage
 
+### `promisify(fn, ctx, _)`
+
+Creates a wrapper function, which returns [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+
 ```javascript
 const fs = require('fs');
 const resolve = require('path').resolve;
@@ -23,3 +27,13 @@ readFile(resolve('index.js'), 'utf8')
   .then(console.log)
   .catch(console.error);
 ```
+
+Arguments:
+
+- `fn (function)`: The original function.
+- `ctx (*)`: Predefines execution context of the original function.
+- `..._ (*)`: Possibility to provide additional arguments, that will be prepended to the function.
+
+## License
+
+> The MIT License
