@@ -1,11 +1,14 @@
+'use strict';
+
 var slice = Array.prototype.slice;
 
 /**
  * @param  {function} fn
  * @param  {object}   ctx
+ * @param  {...*}     _   Additional arguments
  * @return {function}
  */
-module.exports = function promisify(fn, ctx) {
+module.exports = function promisify(fn, ctx, _) {
   var argsNum = fn.length - 1;
   var argsToPrepend = slice.call(arguments, 2);
 
