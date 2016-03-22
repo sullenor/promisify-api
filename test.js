@@ -23,6 +23,15 @@ suite('promisify-api', function () {
       });
   });
 
+  test('prepends additional arguments', function (done) {
+    promisify(result, null, 6)()
+      .then(function (rs) {
+        assert.equal(rs, 6);
+        done();
+      })
+      .catch(done);
+  });
+
   test('saves the context', function (done) {
     var kitty = {
       /**
@@ -44,6 +53,24 @@ suite('promisify-api', function () {
         done();
       })
       .catch(done);
+  });
+
+  test('throws an exception for the additional argument', () => {
+    try {
+      promisify(result, null, 6, 'excess');
+      done(new Error('failure'));
+    } catch(er) {
+      assert.equal(er.message, 'result function doesn\'t accept more than one argument');
+    }
+  });
+
+  test('throws an exception for the additional argument', () => {
+    try {
+      promisify(result, null, 6, 'excess');
+      done(new Error('failure'));
+    } catch(er) {
+      assert.equal(er.message, 'result function doesn\'t accept more than one argument');
+    }
   });
 });
 
