@@ -12,8 +12,9 @@
     "mocha": "^2.4.5"
   },
   "scripts": {
-    "benchmarks": "node benchmarks",
-    "test": "mocha --ui tdd test"
+    "benchmarks": "echo \"node $(node -v)\" && echo '' && node benchmarks/arguments.js && echo '' && node benchmarks/promisify.js",
+    "test": "npm run test:unit && npm run benchmarks",
+    "test:unit": "mocha --ui tdd test"
   },
   "repository": {
     "type": "git",
