@@ -1,7 +1,5 @@
 'use strict';
 
-var slice = Array.prototype.slice;
-
 /**
  * @param  {function} fn
  * @param  {object}   ctx
@@ -9,30 +7,36 @@ var slice = Array.prototype.slice;
  * @return {function}
  */
 module.exports = function promisify(fn, ctx, _) {
-  var argsNum = fn.length - 1;
-  var argsToPrepend = slice.call(arguments, 2);
+  for (var prependedArgs = [], i = 2; i < arguments.length; ++i) {
+    prependedArgs.push(arguments[i]);
+  }
+
+  var possibleArgs = fn.length - 1;
+  var maxArgs = Math.max(possibleArgs - prependedArgs.length, 0);
 
   if (fn.length === 0) {
     throw new Error('promisify accepts functions with explicit arguments declaration');
   }
 
-  if (argsToPrepend.length > argsNum) {
+  if (prependedArgs.length > possibleArgs) {
     var name = (fn.name || 'promisified') + ' function doesn\'t accept';
-    switch (argsNum) {
+    switch (possibleArgs) {
     case 0:
       throw new Error(name + ' any additional arguments');
     case 1:
       throw new Error(name + ' more than one argument');
     default:
-      throw new Error(name + ' more than ' + argsNum + ' arguments');
+      throw new Error(name + ' more than ' + possibleArgs + ' arguments');
     }
   }
 
   return function promise() {
-    var args = slice.call(arguments, 0, Math.max(argsNum - argsToPrepend.length, 0));
+    for (var args = Array(maxArgs), i = 0; i < args.length; ++i) {
+      args[i] = arguments[i];
+    }
 
     return new Promise(function (resolve, reject) {
-      fn.apply(ctx, argsToPrepend.concat(args, function (er, rs) {
+      fn.apply(ctx, prependedArgs.concat(args, function (er, rs) {
         if (er) {
           return void reject(er);
         }
