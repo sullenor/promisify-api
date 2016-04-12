@@ -1,3 +1,5 @@
+'use strict';
+
 var p = require('../../index');
 var promisifiedDelay = p(delay);
 
